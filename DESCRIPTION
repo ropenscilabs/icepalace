@@ -15,3 +15,5 @@ Depends: R (>= 4.1)
 Imports: 
     curl,
     rlang
+URL: https://github.com/ropenscilabs/icepalace
+BugReports: https://github.com/ropenscilabs/icepalace/issues
