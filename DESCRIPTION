@@ -1,0 +1,17 @@
+Package: icepalace
+Title: Locally Backs Up Current Versions of R Universes
+Version: 0.0.0.9000
+Authors@R: c(
+    person("Maëlle", "Salmon", , "msmaellesalmon@gmail.com", role = c("cre", "aut"),
+           comment = c(ORCID = "0000-0002-2815-0399")),
+    person("Jeroen", "Ooms", , "jeroen@berkeley.edu", role = "aut")
+  )
+Description: What the package does (one paragraph).
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.0
+Depends: R (>= 4.1)
+Imports: 
+    curl,
+    rlang
