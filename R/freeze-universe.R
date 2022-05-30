@@ -38,7 +38,7 @@ backup_package_repository <- function(url, destdir = basename(url),
 backup_package_repository_type <- function(type, url, destdir, r_version) {
   switch(
     type,
-    src = backup_package_repository_src(url, destdir, r_version),
+    source = backup_package_repository_src(url, destdir, r_version),
     mac.binary = backup_package_repository_bin("macosx", url, destdir, r_version),
     win.binary = backup_package_repository_bin("windows", url, destdir, r_version)
   )
