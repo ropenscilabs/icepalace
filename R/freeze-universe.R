@@ -5,11 +5,10 @@
 #' @param type Type of package archives.
 #' @param r_version R version
 #'
-#' @return
 #' @export
 #'
 #' @examples
-#' backup_package_repository("https://jeroen.r-universe.dev", type = "src")
+#' backup_package_repository("https://jeroen.r-universe.dev", type = "source")
 backup_package_repository <- function(url, destdir = basename(url),
                                       type = c("source", "mac.binary", "win.binary"),
                                       r_version = NULL) {
