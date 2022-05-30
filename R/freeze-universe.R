@@ -40,8 +40,8 @@ backup_package_repository_type <- function(type, url, destdir, r_version) {
   switch(
     type,
     src = backup_package_repository_src(url, destdir, r_version),
-    mac.binary = backup_package_repository_mac(url, destdir, r_version),
-    win.binary = backup_package_repository(url, destdir, r_version)
+    mac.binary = backup_package_repository_bin("macosx", url, destdir, r_version),
+    win.binary = backup_package_repository_bin("windows", url, destdir, r_version)
   )
 }
 
@@ -61,11 +61,11 @@ backup_package_repository_src <- function(url, destdir, r_version) {
   download.packages(available_packages$Package, destdir = srcdir, available = available_packages)
 }
 
-backup_package_repository_mac <- function(url, destdir, r_version) {
-  bin_url <- sprintf("%s/bin/macosx/contrib/%s", url, r_version)
+backup_package_repository_bin <- function(os, url, destdir, r_version) {
+  bin_url <- sprintf("%s/bin/%s/contrib/%s", url, os, r_version)
   available_packages <- as.data.frame(suppressWarnings(available.packages(bin_url)))
 
-  macdir <- file.path(destdir, 'bin', 'macosx', 'contrib', r_version)
+  macdir <- file.path(destdir, 'bin', os, 'contrib', r_version)
 
 
   dir.create(macdir, recursive = TRUE)
@@ -73,8 +73,6 @@ backup_package_repository_mac <- function(url, destdir, r_version) {
   download.file(file.path(bin_url, 'PACKAGES'), file.path(macdir, "PACKAGES"))
   download.file(file.path(bin_url, 'PACKAGES.gz'), file.path(macdir, "PACKAGES.gz"))
   download.file(file.path(bin_url, 'PACKAGES.json'), file.path(macdir, "PACKAGES.json"))
-  download.packages(available_packages$Package, destdir = macdir, available = available_packages, type = "mac.binary")
+  type <- switch(os, macosx = "mac.binary", windows = "win.binary")
+  download.packages(available_packages$Package, destdir = macdir, available = available_packages, type = type)
 }
-
-# backup_package_repository
-
