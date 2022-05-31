@@ -42,7 +42,7 @@ library(icepalace)
 destdir <- withr::local_tempdir()
 snapshot_package_repository("https://r-lib.r-universe.dev", destdir = destdir)
 fs::dir_tree(destdir)
-#> /tmp/RtmpI1QWGx/file6d0566e7afa0
+#> /tmp/RtmpEvfrto/filea06a3f1db7cc
 #> ├── bin
 #> │   ├── macosx
 #> │   │   └── contrib
@@ -376,7 +376,7 @@ fs::dir_tree(destdir)
 
 repo <- sprintf("file:///%s", destdir)
 repo
-#> [1] "file:////tmp/RtmpI1QWGx/file6d0566e7afa0"
+#> [1] "file:////tmp/RtmpEvfrto/filea06a3f1db7cc"
 install.packages("styler", repos = c(rlib = repo, CRAN = 'https://cloud.r-project.org'))
 #> Installation du package dans '/home/maelle/R/x86_64-pc-linux-gnu-library/4.2'
 #> (car 'lib' n'est pas spécifié)
@@ -394,11 +394,19 @@ By default the binaries are downloaded for the latest released version
 of R (`rversions::r_release()`). If `type` includes `win.binary` or
 `mac.binary` (by default, `type` includes source and both kinds of
 binaries), and there are no binary for the R version, the function will
-error.
+warn.
 
 ``` r
 snapshot_package_repository("https://r-lib.r-universe.dev", type = "win.binary", r_version = "3.3")
-#> Error in `snapshot_package_repository_bin()` at icepalace/R/freeze-universe.R:42:2:
-#> ! ✖ Can't find any package win.binary for repository `https://r-lib.r-universe.dev/bin/windows/contrib/3.3`.
+#> Warning: ✖ Can't find any package win.binary for repository `https://r-lib.r-universe.dev/bin/windows/contrib/3.3`.
 #> ℹ Maybe try another R version?
+```
+
+If there are no package at all (for instance if there is a typo in the
+URL), the function will error.
+
+``` r
+snapshot_package_repository("https://_blop_.r-universe.dev")
+#> Error in `snapshot_package_repository_src()` at icepalace/R/snapshot.R:35:4:
+#> ! ✖ Can't find any package source for repository `https://_blop_.r-universe.dev`.
 ```
