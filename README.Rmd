@@ -38,7 +38,7 @@ devtools::install_github("ropenscilabs/icepalace")
 
 ## Example
 
-Let's snapshot the r-lib R-universe repository.
+Let's snapshot the r-lib R-universe repository and then install styler from that repo.
 
 ```{r example}
 library(icepalace)
@@ -46,4 +46,11 @@ library(icepalace)
 destdir <- withr::local_tempdir()
 snapshot_package_repository("https://r-lib.r-universe.dev", destdir = destdir)
 fs::dir_tree(destdir)
+
+repo <- sprintf("file:///%s", destdir)
+repo
+install.packages("styler", repos = c(rlib = repo, CRAN = 'https://cloud.r-project.org'))
+
+pkg_info <- sessioninfo::package_info("styler")
+pkg_info[pkg_info$package == "styler",]
 ```

@@ -33,7 +33,8 @@ devtools::install_github("ropenscilabs/icepalace")
 
 ## Example
 
-Let’s snapshot the r-lib R-universe repository.
+Let’s snapshot the r-lib R-universe repository and then install styler
+from that repo.
 
 ``` r
 library(icepalace)
@@ -41,7 +42,7 @@ library(icepalace)
 destdir <- withr::local_tempdir()
 snapshot_package_repository("https://r-lib.r-universe.dev", destdir = destdir)
 fs::dir_tree(destdir)
-#> /tmp/RtmpdC31f5/file310546823a25
+#> /tmp/Rtmpzbrx85/file3c706b965b66
 #> ├── bin
 #> │   ├── macosx
 #> │   │   └── contrib
@@ -372,4 +373,20 @@ fs::dir_tree(destdir)
 #>         ├── ymlthis_0.1.5.9000.tar.gz
 #>         ├── zeallot_0.1.0.9000.tar.gz
 #>         └── zip_2.2.0.9000.tar.gz
+
+repo <- sprintf("file:///%s", destdir)
+repo
+#> [1] "file:////tmp/Rtmpzbrx85/file3c706b965b66"
+install.packages("styler", repos = c(rlib = repo, CRAN = 'https://cloud.r-project.org'))
+#> Installation du package dans '/home/maelle/R/x86_64-pc-linux-gnu-library/4.2'
+#> (car 'lib' n'est pas spécifié)
+#> installation des dépendances 'R.methodsS3', 'R.oo', 'R.utils', 'R.cache'
+
+pkg_info <- sessioninfo::package_info("styler")
+pkg_info[pkg_info$package == "styler",]
+#>  package * version    date (UTC) lib source
+#>  styler    1.7.0.9001 2022-05-31 [1] https://r-lib.r-universe.dev (R 4.2.0)
+#> 
+#>  [1] /home/maelle/R/x86_64-pc-linux-gnu-library/4.2
+#>  [2] /opt/R/4.2.0/lib/R/library
 ```
