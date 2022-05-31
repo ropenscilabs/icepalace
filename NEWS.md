@@ -1,5 +1,23 @@
 <!-- NEWS.md is maintained by https://cynkra.github.io/fledge, do not edit -->
 
+# icepalace 0.0.0.9002
+
+## Bug fixes 
+
+- safer downloads (#4)
+
+
+## Continuous integration 
+
+- add GHA workflows
+
+
+
+## doc 
+
+- correct description
+
+
 # icepalace 0.0.0.9001
 
 - Internal changes only.
