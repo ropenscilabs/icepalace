@@ -40,22 +40,8 @@ library(icepalace)
 # In real life do not use a temporary directory :-)
 destdir <- withr::local_tempdir()
 snapshot_package_repository("https://r-lib.r-universe.dev", destdir = destdir)
-#> Warning in download.file(url, destfile, method, mode = "wb", ...): URL 'https://
-#> r-lib.r-universe.dev/bin/macosx/contrib/4.2/covr_3.5.1.9003.tgz': statut 'SSL
-#> connect error'
-#> Error in download.file(url, destfile, method, mode = "wb", ...) : 
-#>   impossible d'ouvrir l'URL 'https://r-lib.r-universe.dev/bin/macosx/contrib/4.2/covr_3.5.1.9003.tgz'
-#> Warning in download.packages(available_packages$Package, destdir = macdir, : le
-#> téléchargement du package 'covr' a échoué
-#> Warning in download.file(url, destfile, method, mode = "wb", ...): URL 'https://
-#> r-lib.r-universe.dev/bin/windows/contrib/4.2/decor_1.0.1.9000.zip': statut 'SSL
-#> connect error'
-#> Error in download.file(url, destfile, method, mode = "wb", ...) : 
-#>   impossible d'ouvrir l'URL 'https://r-lib.r-universe.dev/bin/windows/contrib/4.2/decor_1.0.1.9000.zip'
-#> Warning in download.packages(available_packages$Package, destdir = macdir, : le
-#> téléchargement du package 'decor' a échoué
 fs::dir_tree(destdir)
-#> /tmp/Rtmpoww0wk/file7efc28767214
+#> /tmp/RtmpdC31f5/file310546823a25
 #> ├── bin
 #> │   ├── macosx
 #> │   │   └── contrib
@@ -81,6 +67,7 @@ fs::dir_tree(destdir)
 #> │   │           ├── commonmark_1.8.0.tgz
 #> │   │           ├── conflicted_1.1.0.9000.tgz
 #> │   │           ├── coro_1.0.2.9000.tgz
+#> │   │           ├── covr_3.5.1.9003.tgz
 #> │   │           ├── cpp11_0.4.2.9000.tgz
 #> │   │           ├── crayon_1.5.1.9000.tgz
 #> │   │           ├── credentials_1.3.2.tgz
@@ -195,6 +182,7 @@ fs::dir_tree(destdir)
 #> │               ├── crayon_1.5.1.9000.zip
 #> │               ├── credentials_1.3.2.zip
 #> │               ├── debugme_1.1.0.9001.zip
+#> │               ├── decor_1.0.1.9000.zip
 #> │               ├── desc_1.4.1.9000.zip
 #> │               ├── devoid_0.1.1.9000.zip
 #> │               ├── devtools_2.4.3.9000.zip
