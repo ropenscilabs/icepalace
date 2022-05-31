@@ -1,5 +1,5 @@
 Package: icepalace
-Title: Locally Backs Up Current Versions of R Universes
+Title: Snapshot Current Versions of CRAN-like Repositories
 Version: 0.0.0.9001
 Authors@R: c(
     person("Maëlle", "Salmon", , "msmaellesalmon@gmail.com", role = c("cre", "aut"),
