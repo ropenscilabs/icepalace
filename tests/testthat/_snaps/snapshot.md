@@ -4,5 +4,10 @@
 
 ---
 
-    cannot open URL 'https://jeroen.r-universe.dev/bin/windows/contrib/1.1/PACKAGES.rds': HTTP status was '404 Not Found'
+    Code
+      snapshot_package_repository("https://jeroen.r-universe.dev", type = "win.binary",
+        r_version = "1.1")
+    Warning <rlang_warning>
+      x Can't find any package win.binary for repository `https://jeroen.r-universe.dev/bin/windows/contrib/1.1`.
+      i Maybe try another R version?
 
