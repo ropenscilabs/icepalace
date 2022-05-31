@@ -38,28 +38,28 @@ devtools::install_github("ropenscilabs/icepalace")
 
 ## Example
 
-Let's snapshot the r-lib R-universe repository and then install styler from that repo.
+Let's snapshot the vimc R-universe repository and then install porcelain from that repo.
 
 ```{r example}
 library(icepalace)
 # In real life do not use a temporary directory :-)
 destdir <- withr::local_tempdir()
-snapshot_package_repository("https://r-lib.r-universe.dev", destdir = destdir)
+snapshot_package_repository("https://vimc.r-universe.dev", destdir = destdir)
 fs::dir_tree(destdir)
 
 repo <- sprintf("file:///%s", destdir)
 repo
-install.packages("styler", repos = c(rlib = repo, CRAN = 'https://cloud.r-project.org'))
+install.packages("porcelain", repos = c(rlib = repo, CRAN = 'https://cloud.r-project.org'))
 
-pkg_info <- sessioninfo::package_info("styler")
-pkg_info[pkg_info$package == "styler",]
+pkg_info <- sessioninfo::package_info("porcelain")
+pkg_info[pkg_info$package == "porcelain",]
 ```
 
 By default the binaries are downloaded for the latest released version of R (`rversions::r_release()`).
 If `type` includes `win.binary` or `mac.binary` (by default, `type` includes source and both kinds of binaries), and there are no binary for the R version, the function will warn.
 
 ```{r error = TRUE}
-snapshot_package_repository("https://r-lib.r-universe.dev", type = "win.binary", r_version = "3.3")
+snapshot_package_repository("https://ggseg.r-universe.dev", type = "win.binary", r_version = "3.3")
 ```
 
 If there are no package at all (for instance if there is a typo in the URL), the function will error.
