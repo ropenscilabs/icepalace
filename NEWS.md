@@ -1,5 +1,15 @@
 <!-- NEWS.md is maintained by https://cynkra.github.io/fledge, do not edit -->
 
+# icepalace 0.0.0.9004
+
+## Documentation 
+
+- change README example to show a curated set of packages
+
+## Refactoring 
+
+- improve code style
+
 # icepalace 0.0.0.9003
 
 ## Features 
