@@ -1,9 +1,10 @@
 test_that("snapshot_package_repository() works", {
   destdir <- withr::local_tempdir()
   snapshot_package_repository("https://maelle.r-universe.dev", destdir = destdir)
+  r_version <- sanitize_version(rversions::r_release()[["version"]])
   expect_true(dir.exists(file.path(destdir, "src")))
-  expect_true(dir.exists(file.path(destdir, "bin", "macosx", "contrib")))
-  expect_true(dir.exists(file.path(destdir, "bin", "windows", "contrib")))
+  expect_true(dir.exists(file.path(destdir, "bin", "macosx", "contrib", r_version)))
+  expect_true(dir.exists(file.path(destdir, "bin", "windows", "contrib", r_version)))
 })
 
 test_that("snapshot_package_repository() when there is no package", {

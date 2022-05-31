@@ -18,7 +18,7 @@ snapshot_package_repository(
 
 \item{type}{Type of package archives.}
 
-\item{r_version}{R version}
+\item{r_version}{R version (character vector)}
 }
 \description{
 Snapshot a Package Repository

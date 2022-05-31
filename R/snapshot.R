@@ -3,7 +3,7 @@
 #' @param url URL to the CRAN-like repository.
 #' @param destdir Folder where to save the archives.
 #' @param type Type of package archives.
-#' @param r_version R version
+#' @param r_version R version (character vector)
 #'
 #' @importFrom rlang `%||%`
 #'
@@ -24,30 +24,40 @@ snapshot_package_repository <- function(url, destdir = basename(url),
   type <- rlang::arg_match(type, values = c("source", "mac.binary", "win.binary"), multiple = TRUE)
 
   r_version <- (r_version %||% rversions::r_release()$version) |>
-    sanitize_version()
+    purrr::map_chr(sanitize_version)
 
   if (!curl::has_internet()) {
     rlang::abort("Can't connect, is this machine offline?")
   }
 
-  purrr::walk(
-    type,
-    snapshot_package_repository_type,
-    url = url, destdir = destdir, r_version = r_version
-  )
+
+  if ("source" %in% type) {
+    snapshot_package_repository_src(url, destdir)
+  }
+
+  type <- type[type != "source"]
+  if (length(type) > 0) {
+    purrr::walk(
+      r_version,
+      ~ purrr::walk(
+        type,
+        snapshot_package_repository_type,
+        url = url, destdir = destdir, r_version = .
+      )
+    )
+  }
 
 }
 
 snapshot_package_repository_type <- function(type, url, destdir, r_version) {
   switch(
     type,
-    source = snapshot_package_repository_src(url, destdir, r_version),
     mac.binary = snapshot_package_repository_bin("macosx", url, destdir, r_version),
     win.binary = snapshot_package_repository_bin("windows", url, destdir, r_version)
   )
 }
 
-snapshot_package_repository_src <- function(url, destdir, r_version) {
+snapshot_package_repository_src <- function(url, destdir) {
   srcdir <- file.path(destdir, 'src', 'contrib')
   available_packages <-
     as.data.frame(
