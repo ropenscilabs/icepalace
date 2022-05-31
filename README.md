@@ -33,16 +33,16 @@ devtools::install_github("ropenscilabs/icepalace")
 
 ## Example
 
-Let’s snapshot the vimc R-universe repository and then install porcelain
+Let’s snapshot the mrc-ide R-universe repository and then install dde
 from that repo.
 
 ``` r
 library(icepalace)
 # In real life do not use a temporary directory :-)
 destdir <- withr::local_tempdir()
-snapshot_package_repository("https://vimc.r-universe.dev", destdir = destdir)
+snapshot_package_repository("https://mrc-ide.r-universe.dev", destdir = destdir)
 fs::dir_tree(destdir)
-#> /tmp/RtmpOZlGbo/fileb4758a9515
+#> /tmp/RtmprFXQAF/fileb97b14f07edc
 #> ├── bin
 #> │   ├── macosx
 #> │   │   └── contrib
@@ -51,16 +51,30 @@ fs::dir_tree(destdir)
 #> │   │           ├── PACKAGES.gz
 #> │   │           ├── PACKAGES.json
 #> │   │           ├── beers_0.1.0.tgz
-#> │   │           ├── dettl_0.0.19.tgz
-#> │   │           ├── jenner_0.0.26.tgz
+#> │   │           ├── buildr_0.0.3.tgz
+#> │   │           ├── conan_0.1.1.tgz
+#> │   │           ├── context_0.3.0.tgz
+#> │   │           ├── dde_1.0.3.tgz
+#> │   │           ├── defer_0.1.0.tgz
+#> │   │           ├── didehpc_0.3.12.tgz
+#> │   │           ├── dust_0.11.27.tgz
+#> │   │           ├── heartbeatr_0.6.0.tgz
+#> │   │           ├── individual_0.1.8.tgz
 #> │   │           ├── jsonvalidate_1.4.0.tgz
-#> │   │           ├── montagu_0.6.1.tgz
-#> │   │           ├── orderly.rstudio_0.0.3.tgz
-#> │   │           ├── orderly.sharepoint_0.1.4.tgz
-#> │   │           ├── orderly_1.4.8.tgz
-#> │   │           ├── orderlyweb_0.1.13.tgz
+#> │   │           ├── malariaEquilibrium_1.0.1.tgz
+#> │   │           ├── malariasimulation_1.3.0.tgz
+#> │   │           ├── mcstate_0.9.1.tgz
+#> │   │           ├── nomad_0.0.1.tgz
+#> │   │           ├── odin.dust_0.2.16.tgz
+#> │   │           ├── odin.js_0.1.11.tgz
+#> │   │           ├── odin_1.3.4.tgz
 #> │   │           ├── porcelain_0.1.8.tgz
-#> │   │           ├── spud_0.1.7.tgz
+#> │   │           ├── provisionr_0.1.14.tgz
+#> │   │           ├── queuer_0.3.0.tgz
+#> │   │           ├── rrq_0.5.7.tgz
+#> │   │           ├── specio_0.1.4.tgz
+#> │   │           ├── syncr_0.0.3.tgz
+#> │   │           ├── traduire_0.0.6.tgz
 #> │   │           └── vaultr_1.1.0.tgz
 #> │   └── windows
 #> │       └── contrib
@@ -69,16 +83,29 @@ fs::dir_tree(destdir)
 #> │               ├── PACKAGES.gz
 #> │               ├── PACKAGES.json
 #> │               ├── beers_0.1.0.zip
-#> │               ├── dettl_0.0.19.zip
-#> │               ├── jenner_0.0.26.zip
+#> │               ├── buildr_0.0.3.zip
+#> │               ├── conan_0.1.1.zip
+#> │               ├── context_0.3.0.zip
+#> │               ├── dde_1.0.3.zip
+#> │               ├── defer_0.1.0.zip
+#> │               ├── didehpc_0.3.12.zip
+#> │               ├── dust_0.11.27.zip
+#> │               ├── individual_0.1.8.zip
 #> │               ├── jsonvalidate_1.4.0.zip
-#> │               ├── montagu_0.6.1.zip
-#> │               ├── orderly.rstudio_0.0.3.zip
-#> │               ├── orderly.sharepoint_0.1.4.zip
-#> │               ├── orderly_1.4.8.zip
-#> │               ├── orderlyweb_0.1.13.zip
+#> │               ├── malariaEquilibrium_1.0.1.zip
+#> │               ├── malariasimulation_1.3.0.zip
+#> │               ├── mcstate_0.9.1.zip
+#> │               ├── nomad_0.0.1.zip
+#> │               ├── odin.dust_0.2.16.zip
+#> │               ├── odin.js_0.1.11.zip
+#> │               ├── odin_1.3.4.zip
 #> │               ├── porcelain_0.1.8.zip
-#> │               ├── spud_0.1.7.zip
+#> │               ├── provisionr_0.1.14.zip
+#> │               ├── queuer_0.3.0.zip
+#> │               ├── rrq_0.5.7.zip
+#> │               ├── specio_0.1.4.zip
+#> │               ├── syncr_0.0.3.zip
+#> │               ├── traduire_0.0.6.zip
 #> │               └── vaultr_1.1.0.zip
 #> └── src
 #>     └── contrib
@@ -86,30 +113,44 @@ fs::dir_tree(destdir)
 #>         ├── PACKAGES.gz
 #>         ├── PACKAGES.json
 #>         ├── beers_0.1.0.tar.gz
-#>         ├── dettl_0.0.19.tar.gz
-#>         ├── jenner_0.0.26.tar.gz
+#>         ├── buildr_0.0.3.tar.gz
+#>         ├── conan_0.1.1.tar.gz
+#>         ├── context_0.3.0.tar.gz
+#>         ├── dde_1.0.3.tar.gz
+#>         ├── defer_0.1.0.tar.gz
+#>         ├── didehpc_0.3.12.tar.gz
+#>         ├── dust_0.11.27.tar.gz
+#>         ├── heartbeatr_0.6.0.tar.gz
+#>         ├── individual_0.1.8.tar.gz
 #>         ├── jsonvalidate_1.4.0.tar.gz
-#>         ├── montagu_0.6.1.tar.gz
-#>         ├── orderly.rstudio_0.0.3.tar.gz
-#>         ├── orderly.sharepoint_0.1.4.tar.gz
-#>         ├── orderly_1.4.8.tar.gz
-#>         ├── orderlyweb_0.1.13.tar.gz
+#>         ├── malariaEquilibrium_1.0.1.tar.gz
+#>         ├── malariasimulation_1.3.0.tar.gz
+#>         ├── mcstate_0.9.1.tar.gz
+#>         ├── nomad_0.0.1.tar.gz
+#>         ├── odin.dust_0.2.16.tar.gz
+#>         ├── odin.js_0.1.11.tar.gz
+#>         ├── odin_1.3.4.tar.gz
 #>         ├── porcelain_0.1.8.tar.gz
-#>         ├── spud_0.1.7.tar.gz
+#>         ├── provisionr_0.1.14.tar.gz
+#>         ├── queuer_0.3.0.tar.gz
+#>         ├── rrq_0.5.7.tar.gz
+#>         ├── specio_0.1.4.tar.gz
+#>         ├── syncr_0.0.3.tar.gz
+#>         ├── traduire_0.0.6.tar.gz
 #>         └── vaultr_1.1.0.tar.gz
 
 repo <- sprintf("file:///%s", destdir)
 repo
-#> [1] "file:////tmp/RtmpOZlGbo/fileb4758a9515"
-install.packages("porcelain", repos = c(rlib = repo, CRAN = 'https://cloud.r-project.org'))
+#> [1] "file:////tmp/RtmprFXQAF/fileb97b14f07edc"
+install.packages("dde", repos = c(rlib = repo, CRAN = 'https://cloud.r-project.org'))
 #> Installation du package dans '/home/maelle/R/x86_64-pc-linux-gnu-library/4.2'
 #> (car 'lib' n'est pas spécifié)
-#> installation des dépendances 'webutils', 'swagger', 'V8', 'jsonvalidate', 'plumber'
+#> installation de la dépendance 'ring'
 
-pkg_info <- sessioninfo::package_info("porcelain")
-pkg_info[pkg_info$package == "porcelain",]
-#>  package   * version date (UTC) lib source
-#>  porcelain   0.1.8   2022-05-31 [1] https://vimc.r-universe.dev (R 4.2.0)
+pkg_info <- sessioninfo::package_info("dde")
+pkg_info[pkg_info$package == "dde",]
+#>  package * version date (UTC) lib source
+#>  dde       1.0.3   2022-05-31 [1] https://mrc-ide.r-universe.dev (R 4.2.0)
 #> 
 #>  [1] /home/maelle/R/x86_64-pc-linux-gnu-library/4.2
 #>  [2] /opt/R/4.2.0/lib/R/library
@@ -122,8 +163,8 @@ binaries), and there are no binary for the R version, the function will
 warn.
 
 ``` r
-snapshot_package_repository("https://ggseg.r-universe.dev", type = "win.binary", r_version = "3.3")
-#> Warning: ✖ Can't find any package win.binary for repository `https://ggseg.r-universe.dev/bin/windows/contrib/3.3`.
+snapshot_package_repository("https://mrc-ide.r-universe.dev", type = "win.binary", r_version = "3.3")
+#> Warning: ✖ Can't find any package win.binary for repository `https://mrc-ide.r-universe.dev/bin/windows/contrib/3.3`.
 #> ℹ Maybe try another R version?
 ```
 
