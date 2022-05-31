@@ -15,8 +15,13 @@ Depends: R (>= 4.1)
 Imports: 
     curl,
     httr2,
+    memoise,
     purrr,
     rlang,
     rversions
 URL: https://github.com/ropenscilabs/icepalace
 BugReports: https://github.com/ropenscilabs/icepalace/issues
+Suggests: 
+    testthat (>= 3.0.0),
+    withr
+Config/testthat/edition: 3

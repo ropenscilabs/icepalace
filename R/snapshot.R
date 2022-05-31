@@ -1,9 +1,11 @@
-#' snapshot a Package Repository
+#' Snapshot a Package Repository
 #'
 #' @param url URL to the CRAN-like repository.
 #' @param destdir Folder where to save the archives.
 #' @param type Type of package archives.
 #' @param r_version R version
+#'
+#' @importFrom rlang `%||%`
 #'
 #' @export
 #'
@@ -12,8 +14,8 @@
 #' snapshot_package_repository("https://jeroen.r-universe.dev", type = "source")
 #' }
 snapshot_package_repository <- function(url, destdir = basename(url),
-                                      type = c("source", "mac.binary", "win.binary"),
-                                      r_version = NULL) {
+  type = c("source", "mac.binary", "win.binary"),
+  r_version = NULL) {
 
   # TODO
   # check url is length 1 and remove backslash at the end
@@ -21,9 +23,8 @@ snapshot_package_repository <- function(url, destdir = basename(url),
 
   type <- rlang::arg_match(type, values = c("source", "mac.binary", "win.binary"), multiple = TRUE)
 
-  if (is.null(r_version)) {
-    r_version <- substr(rversions::r_release()$version, 1, 3)
-  }
+  r_version <- (r_version %||% rversions::r_release()$version) |>
+    sanitize_version()
 
   if (!curl::has_internet()) {
     rlang::abort("Can't connect, is this machine offline?")
@@ -50,11 +51,19 @@ snapshot_package_repository_src <- function(url, destdir, r_version) {
   srcdir <- file.path(destdir, 'src', 'contrib')
   available_packages <-
     as.data.frame(
-      utils::available.packages(repos = url, type = "source", ignore_repo_cache = TRUE)
+      utils::available.packages(
+        repos = url,
+        type = "source",
+        ignore_repo_cache = TRUE
       )
+    )
 
   if (nrow(available_packages) == 0) {
-    rlang::abort(sprintf("Can't find any package for repository %s.", url))
+    rlang::abort(
+      c(
+        x = sprintf("Can't find any package source for repository `%s`.", url)),
+      i = "Maybe try another R version?"
+    )
   }
 
   dir.create(srcdir, recursive = TRUE)
@@ -76,6 +85,16 @@ snapshot_package_repository_bin <- function(os, url, destdir, r_version) {
   type <- switch(os, macosx = "mac.binary", windows = "win.binary")
 
   available_packages <- as.data.frame(utils::available.packages(bin_url, type = type))
+
+  if (nrow(available_packages) == 0) {
+    rlang::warn(
+      c(
+        x = sprintf("Can't find any package %s for repository `%s`.", type, bin_url),
+        i = "Maybe try another R version?"
+      )
+    )
+    return()
+  }
 
   bindir <- file.path(destdir, 'bin', os, 'contrib', r_version)
 
