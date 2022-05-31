@@ -1,7 +1,6 @@
-#' @importFrom memoise memoise
-
 parse_version <- function(r_version) {
-  strsplit(r_version, split = ".", fixed = TRUE)[[1]][1:2] |> paste0(collapse = ".")
+  strsplit(r_version, split = ".", fixed = TRUE)[[1]][1:2] |>
+    paste0(collapse = ".")
 }
 
 sanitize_version <- function(r_version) {
@@ -19,11 +18,11 @@ sanitize_version <- function(r_version) {
   parsed_version
 }
 
-
 .possible_r_versions <- function() {
   rversions::r_versions()[["version"]] |>
     purrr::map_chr(parse_version) |>
     unique()
 }
 
+#' @importFrom memoise memoise
 possible_r_versions <- memoise::memoise(.possible_r_versions)
