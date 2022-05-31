@@ -1,4 +1,4 @@
-#' Backup a Package Repository
+#' snapshot a Package Repository
 #'
 #' @param url URL to the CRAN-like repository.
 #' @param destdir Folder where to save the archives.
@@ -8,8 +8,8 @@
 #' @export
 #'
 #' @examples
-#' backup_package_repository("https://jeroen.r-universe.dev", type = "source")
-backup_package_repository <- function(url, destdir = basename(url),
+#' snapshot_package_repository("https://jeroen.r-universe.dev", type = "source")
+snapshot_package_repository <- function(url, destdir = basename(url),
                                       type = c("source", "mac.binary", "win.binary"),
                                       r_version = NULL) {
 
@@ -29,24 +29,28 @@ backup_package_repository <- function(url, destdir = basename(url),
 
   purrr::walk(
     type,
-    backup_package_repository_type,
+    snapshot_package_repository_type,
     url = url, destdir = destdir, r_version = r_version
   )
 
 }
 
-backup_package_repository_type <- function(type, url, destdir, r_version) {
+snapshot_package_repository_type <- function(type, url, destdir, r_version) {
   switch(
     type,
-    source = backup_package_repository_src(url, destdir, r_version),
-    mac.binary = backup_package_repository_bin("macosx", url, destdir, r_version),
-    win.binary = backup_package_repository_bin("windows", url, destdir, r_version)
+    source = snapshot_package_repository_src(url, destdir, r_version),
+    mac.binary = snapshot_package_repository_bin("macosx", url, destdir, r_version),
+    win.binary = snapshot_package_repository_bin("windows", url, destdir, r_version)
   )
 }
 
-backup_package_repository_src <- function(url, destdir, r_version) {
+snapshot_package_repository_src <- function(url, destdir, r_version) {
   srcdir <- file.path(destdir, 'src', 'contrib')
-  available_packages <- suppressWarnings(as.data.frame(available.packages(repos = url)))
+  available_packages <- suppressWarnings(
+    as.data.frame(
+      available.packages(repos = url, type = "source", ignore_repo_cache = TRUE)
+      )
+    )
 
   if (nrow(available_packages) == 0) {
     rlang::abort(sprintf("Can't find any package for repository %s.", url))
@@ -60,9 +64,12 @@ backup_package_repository_src <- function(url, destdir, r_version) {
   download.packages(available_packages$Package, destdir = srcdir, available = available_packages)
 }
 
-backup_package_repository_bin <- function(os, url, destdir, r_version) {
+snapshot_package_repository_bin <- function(os, url, destdir, r_version) {
   bin_url <- sprintf("%s/bin/%s/contrib/%s", url, os, r_version)
-  available_packages <- as.data.frame(suppressWarnings(available.packages(bin_url)))
+
+  type <- switch(os, macosx = "mac.binary", windows = "win.binary")
+
+  available_packages <- as.data.frame(suppressWarnings(available.packages(bin_url, type = type)))
 
   macdir <- file.path(destdir, 'bin', os, 'contrib', r_version)
 
@@ -72,6 +79,6 @@ backup_package_repository_bin <- function(os, url, destdir, r_version) {
   download.file(file.path(bin_url, 'PACKAGES'), file.path(macdir, "PACKAGES"))
   download.file(file.path(bin_url, 'PACKAGES.gz'), file.path(macdir, "PACKAGES.gz"))
   download.file(file.path(bin_url, 'PACKAGES.json'), file.path(macdir, "PACKAGES.json"))
-  type <- switch(os, macosx = "mac.binary", windows = "win.binary")
+
   download.packages(available_packages$Package, destdir = macdir, available = available_packages, type = type)
 }
