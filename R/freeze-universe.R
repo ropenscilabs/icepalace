@@ -72,14 +72,13 @@ snapshot_package_repository_bin <- function(os, url, destdir, r_version) {
 
   available_packages <- as.data.frame(utils::available.packages(bin_url, type = type))
 
-  macdir <- file.path(destdir, 'bin', os, 'contrib', r_version)
+  bindir <- file.path(destdir, 'bin', os, 'contrib', r_version)
 
+  dir.create(bindir, recursive = TRUE)
 
-  dir.create(macdir, recursive = TRUE)
+  utils::download.file(file.path(bin_url, 'PACKAGES'), file.path(bindir, "PACKAGES"))
+  utils::download.file(file.path(bin_url, 'PACKAGES.gz'), file.path(bindir, "PACKAGES.gz"))
+  utils::download.file(file.path(bin_url, 'PACKAGES.json'), file.path(bindir, "PACKAGES.json"))
 
-  utils::download.file(file.path(bin_url, 'PACKAGES'), file.path(macdir, "PACKAGES"))
-  utils::download.file(file.path(bin_url, 'PACKAGES.gz'), file.path(macdir, "PACKAGES.gz"))
-  utils::download.file(file.path(bin_url, 'PACKAGES.json'), file.path(macdir, "PACKAGES.json"))
-
-  utils::download.packages(available_packages$Package, destdir = macdir, available = available_packages, type = type)
+  utils::download.packages(available_packages$Package, destdir = bindir, available = available_packages, type = type)
 }
