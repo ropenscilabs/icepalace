@@ -54,3 +54,10 @@ install.packages("styler", repos = c(rlib = repo, CRAN = 'https://cloud.r-projec
 pkg_info <- sessioninfo::package_info("styler")
 pkg_info[pkg_info$package == "styler",]
 ```
+
+By default the binaries are downloaded for the latest released version of R (`rversions::r_release()`).
+If `type` includes `win.binary` or `mac.binary` (by default, `type` includes source and both kinds of binaries), and there are no binary for the R version, the function will error.
+
+```{r error = TRUE}
+snapshot_package_repository("https://r-lib.r-universe.dev", type = "win.binary", r_version = "3.3")
+```
