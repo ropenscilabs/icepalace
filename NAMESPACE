@@ -2,3 +2,4 @@
 
 export(snapshot_package_repository)
 importFrom(memoise,memoise)
+importFrom(rlang,`%||%`)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/freeze-universe.R
 \name{snapshot_package_repository}
 \alias{snapshot_package_repository}
-\title{snapshot a Package Repository}
+\title{Snapshot a Package Repository}
 \usage{
 snapshot_package_repository(
   url,
@@ -21,7 +21,7 @@ snapshot_package_repository(
 \item{r_version}{R version}
 }
 \description{
-snapshot a Package Repository
+Snapshot a Package Repository
 }
 \examples{
 \dontrun{
