@@ -8,7 +8,9 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' snapshot_package_repository("https://jeroen.r-universe.dev", type = "source")
+#' }
 snapshot_package_repository <- function(url, destdir = basename(url),
                                       type = c("source", "mac.binary", "win.binary"),
                                       r_version = NULL) {
@@ -46,11 +48,10 @@ snapshot_package_repository_type <- function(type, url, destdir, r_version) {
 
 snapshot_package_repository_src <- function(url, destdir, r_version) {
   srcdir <- file.path(destdir, 'src', 'contrib')
-  available_packages <- suppressWarnings(
+  available_packages <-
     as.data.frame(
-      available.packages(repos = url, type = "source", ignore_repo_cache = TRUE)
+      utils::available.packages(repos = url, type = "source", ignore_repo_cache = TRUE)
       )
-    )
 
   if (nrow(available_packages) == 0) {
     rlang::abort(sprintf("Can't find any package for repository %s.", url))
@@ -58,10 +59,10 @@ snapshot_package_repository_src <- function(url, destdir, r_version) {
 
   dir.create(srcdir, recursive = TRUE)
 
-  download.file(file.path(url, 'src/contrib/PACKAGES'), file.path(srcdir, "PACKAGES"))
-  download.file(file.path(url, 'src/contrib/PACKAGES.gz'), file.path(srcdir, "PACKAGES.gz"))
-  download.file(file.path(url, 'src/contrib/PACKAGES.json'), file.path(srcdir, "PACKAGES.json"))
-  download.packages(available_packages$Package, destdir = srcdir, available = available_packages)
+  utils::download.file(file.path(url, 'src/contrib/PACKAGES'), file.path(srcdir, "PACKAGES"))
+  utils::download.file(file.path(url, 'src/contrib/PACKAGES.gz'), file.path(srcdir, "PACKAGES.gz"))
+  utils::download.file(file.path(url, 'src/contrib/PACKAGES.json'), file.path(srcdir, "PACKAGES.json"))
+  utils::download.packages(available_packages$Package, destdir = srcdir, available = available_packages)
 }
 
 snapshot_package_repository_bin <- function(os, url, destdir, r_version) {
@@ -69,16 +70,16 @@ snapshot_package_repository_bin <- function(os, url, destdir, r_version) {
 
   type <- switch(os, macosx = "mac.binary", windows = "win.binary")
 
-  available_packages <- as.data.frame(suppressWarnings(available.packages(bin_url, type = type)))
+  available_packages <- as.data.frame(utils::available.packages(bin_url, type = type))
 
   macdir <- file.path(destdir, 'bin', os, 'contrib', r_version)
 
 
   dir.create(macdir, recursive = TRUE)
 
-  download.file(file.path(bin_url, 'PACKAGES'), file.path(macdir, "PACKAGES"))
-  download.file(file.path(bin_url, 'PACKAGES.gz'), file.path(macdir, "PACKAGES.gz"))
-  download.file(file.path(bin_url, 'PACKAGES.json'), file.path(macdir, "PACKAGES.json"))
+  utils::download.file(file.path(bin_url, 'PACKAGES'), file.path(macdir, "PACKAGES"))
+  utils::download.file(file.path(bin_url, 'PACKAGES.gz'), file.path(macdir, "PACKAGES.gz"))
+  utils::download.file(file.path(bin_url, 'PACKAGES.json'), file.path(macdir, "PACKAGES.json"))
 
-  download.packages(available_packages$Package, destdir = macdir, available = available_packages, type = type)
+  utils::download.packages(available_packages$Package, destdir = macdir, available = available_packages, type = type)
 }

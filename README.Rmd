@@ -1,0 +1,48 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# icepalace
+
+<!-- badges: start -->
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+<!-- badges: end -->
+
+The goal of this package is to download entire CRAN-like repositories, for instance R-universe repositories to use the archive as a frozen snapshot.
+The frozen snapshot could be kept locally, or for instance served on GitHub Pages.
+It might be useful for reproducibility.
+
+The goal of this package is **not** to also snapshot the dependencies of the repository packages that are not in the repository.
+If you want such an exhaustive snapshot, use tools like [MRAN](https://mran.microsoft.com/timemachine) or [RStudio Package Manager](https://www.rstudio.com/products/package-manager/).
+
+## Installation
+
+You can install the development version of icepalace from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("ropenscilabs/icepalace")
+```
+
+## Example
+
+Let's snapshot the r-lib R-universe repository.
+
+```{r example}
+library(icepalace)
+# In real life do not use a temporary directory :-)
+destdir <- withr::local_tempdir()
+snapshot_package_repository("https://r-lib.r-universe.dev", destdir = destdir)
+fs::dir_tree(destdir)
+```

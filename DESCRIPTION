@@ -14,6 +14,8 @@ RoxygenNote: 7.2.0
 Depends: R (>= 4.1)
 Imports: 
     curl,
-    rlang
+    purrr,
+    rlang,
+    rversions
 URL: https://github.com/ropenscilabs/icepalace
 BugReports: https://github.com/ropenscilabs/icepalace/issues

@@ -24,5 +24,7 @@ snapshot_package_repository(
 snapshot a Package Repository
 }
 \examples{
+\dontrun{
 snapshot_package_repository("https://jeroen.r-universe.dev", type = "source")
+}
 }
