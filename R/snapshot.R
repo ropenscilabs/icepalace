@@ -87,12 +87,13 @@ snapshot_package_repository_bin <- function(os, url, destdir, r_version) {
   available_packages <- as.data.frame(utils::available.packages(bin_url, type = type))
 
   if (nrow(available_packages) == 0) {
-    rlang::abort(
+    rlang::warn(
       c(
         x = sprintf("Can't find any package %s for repository `%s`.", type, bin_url),
         i = "Maybe try another R version?"
       )
     )
+    return()
   }
 
   bindir <- file.path(destdir, 'bin', os, 'contrib', r_version)
