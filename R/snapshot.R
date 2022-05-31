@@ -14,8 +14,8 @@
 #' snapshot_package_repository("https://jeroen.r-universe.dev", type = "source")
 #' }
 snapshot_package_repository <- function(url, destdir = basename(url),
-  type = c("source", "mac.binary", "win.binary"),
-  r_version = NULL) {
+                                        type = c("source", "mac.binary", "win.binary"),
+                                        r_version = NULL) {
 
   # TODO
   # check url is length 1 and remove backslash at the end
