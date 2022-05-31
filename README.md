@@ -33,29 +33,16 @@ devtools::install_github("ropenscilabs/icepalace")
 
 ## Example
 
-Let’s snapshot the r-lib R-universe repository.
+Let’s snapshot the r-lib R-universe repository and then install styler
+from that repo.
 
 ``` r
 library(icepalace)
 # In real life do not use a temporary directory :-)
 destdir <- withr::local_tempdir()
 snapshot_package_repository("https://r-lib.r-universe.dev", destdir = destdir)
-#> Warning in download.file(url, destfile, method, mode = "wb", ...): URL 'https://
-#> r-lib.r-universe.dev/bin/macosx/contrib/4.2/covr_3.5.1.9003.tgz': statut 'SSL
-#> connect error'
-#> Error in download.file(url, destfile, method, mode = "wb", ...) : 
-#>   impossible d'ouvrir l'URL 'https://r-lib.r-universe.dev/bin/macosx/contrib/4.2/covr_3.5.1.9003.tgz'
-#> Warning in download.packages(available_packages$Package, destdir = macdir, : le
-#> téléchargement du package 'covr' a échoué
-#> Warning in download.file(url, destfile, method, mode = "wb", ...): URL 'https://
-#> r-lib.r-universe.dev/bin/windows/contrib/4.2/decor_1.0.1.9000.zip': statut 'SSL
-#> connect error'
-#> Error in download.file(url, destfile, method, mode = "wb", ...) : 
-#>   impossible d'ouvrir l'URL 'https://r-lib.r-universe.dev/bin/windows/contrib/4.2/decor_1.0.1.9000.zip'
-#> Warning in download.packages(available_packages$Package, destdir = macdir, : le
-#> téléchargement du package 'decor' a échoué
 fs::dir_tree(destdir)
-#> /tmp/Rtmpoww0wk/file7efc28767214
+#> /tmp/Rtmpzbrx85/file3c706b965b66
 #> ├── bin
 #> │   ├── macosx
 #> │   │   └── contrib
@@ -81,6 +68,7 @@ fs::dir_tree(destdir)
 #> │   │           ├── commonmark_1.8.0.tgz
 #> │   │           ├── conflicted_1.1.0.9000.tgz
 #> │   │           ├── coro_1.0.2.9000.tgz
+#> │   │           ├── covr_3.5.1.9003.tgz
 #> │   │           ├── cpp11_0.4.2.9000.tgz
 #> │   │           ├── crayon_1.5.1.9000.tgz
 #> │   │           ├── credentials_1.3.2.tgz
@@ -195,6 +183,7 @@ fs::dir_tree(destdir)
 #> │               ├── crayon_1.5.1.9000.zip
 #> │               ├── credentials_1.3.2.zip
 #> │               ├── debugme_1.1.0.9001.zip
+#> │               ├── decor_1.0.1.9000.zip
 #> │               ├── desc_1.4.1.9000.zip
 #> │               ├── devoid_0.1.1.9000.zip
 #> │               ├── devtools_2.4.3.9000.zip
@@ -384,4 +373,20 @@ fs::dir_tree(destdir)
 #>         ├── ymlthis_0.1.5.9000.tar.gz
 #>         ├── zeallot_0.1.0.9000.tar.gz
 #>         └── zip_2.2.0.9000.tar.gz
+
+repo <- sprintf("file:///%s", destdir)
+repo
+#> [1] "file:////tmp/Rtmpzbrx85/file3c706b965b66"
+install.packages("styler", repos = c(rlib = repo, CRAN = 'https://cloud.r-project.org'))
+#> Installation du package dans '/home/maelle/R/x86_64-pc-linux-gnu-library/4.2'
+#> (car 'lib' n'est pas spécifié)
+#> installation des dépendances 'R.methodsS3', 'R.oo', 'R.utils', 'R.cache'
+
+pkg_info <- sessioninfo::package_info("styler")
+pkg_info[pkg_info$package == "styler",]
+#>  package * version    date (UTC) lib source
+#>  styler    1.7.0.9001 2022-05-31 [1] https://r-lib.r-universe.dev (R 4.2.0)
+#> 
+#>  [1] /home/maelle/R/x86_64-pc-linux-gnu-library/4.2
+#>  [2] /opt/R/4.2.0/lib/R/library
 ```

@@ -59,10 +59,15 @@ snapshot_package_repository_src <- function(url, destdir, r_version) {
 
   dir.create(srcdir, recursive = TRUE)
 
-  utils::download.file(file.path(url, 'src/contrib/PACKAGES'), file.path(srcdir, "PACKAGES"))
-  utils::download.file(file.path(url, 'src/contrib/PACKAGES.gz'), file.path(srcdir, "PACKAGES.gz"))
-  utils::download.file(file.path(url, 'src/contrib/PACKAGES.json'), file.path(srcdir, "PACKAGES.json"))
-  utils::download.packages(available_packages$Package, destdir = srcdir, available = available_packages)
+  safely_download_file(file.path(url, 'src/contrib/PACKAGES'), file.path(srcdir, "PACKAGES"))
+  safely_download_file(file.path(url, 'src/contrib/PACKAGES.gz'), file.path(srcdir, "PACKAGES.gz"))
+  safely_download_file(file.path(url, 'src/contrib/PACKAGES.json'), file.path(srcdir, "PACKAGES.json"))
+  safely_download_package(
+    file.path(url, 'src/contrib'),
+    package = available_packages$Package,
+    destdir = srcdir,
+    available_packages = available_packages
+  )
 }
 
 snapshot_package_repository_bin <- function(os, url, destdir, r_version) {
@@ -76,9 +81,15 @@ snapshot_package_repository_bin <- function(os, url, destdir, r_version) {
 
   dir.create(bindir, recursive = TRUE)
 
-  utils::download.file(file.path(bin_url, 'PACKAGES'), file.path(bindir, "PACKAGES"))
-  utils::download.file(file.path(bin_url, 'PACKAGES.gz'), file.path(bindir, "PACKAGES.gz"))
-  utils::download.file(file.path(bin_url, 'PACKAGES.json'), file.path(bindir, "PACKAGES.json"))
+  safely_download_file(file.path(bin_url, 'PACKAGES'), file.path(bindir, "PACKAGES"))
+  safely_download_file(file.path(bin_url, 'PACKAGES.gz'), file.path(bindir, "PACKAGES.gz"))
+  safely_download_file(file.path(bin_url, 'PACKAGES.json'), file.path(bindir, "PACKAGES.json"))
 
-  utils::download.packages(available_packages$Package, destdir = bindir, available = available_packages, type = type)
+  safely_download_package(
+    bin_url,
+    package = available_packages$Package,
+    destdir = bindir,
+    available_packages = available_packages,
+    type = type
+  )
 }
